@@ -11,10 +11,12 @@ mpl.rcParams['toolbar'] = 'None'
 plt.ion()
 
 time_duration = 0
-last_time_duration = -1.0
 start_time_duration = 0
 first_iteration = 'True'
 
+explored_volume = 0;
+traveling_distance = 0;
+run_time = 0;
 max_explored_volume = 0
 max_traveling_diatance = 0
 max_run_time = 0
@@ -34,34 +36,20 @@ def timeDurationCallback(msg):
         first_iteration = 'False'
 
 def runTimeCallback(msg):
+    global run_time
     run_time = msg.data
 
-    global time_duration, last_time_duration, max_run_time, time_list1, run_time_list
-    if time_duration > last_time_duration + 0.2:
-        time_list1 = np.append(time_list1, time_duration)
-        run_time_list = np.append(run_time_list, run_time)
-        last_time_duration = time_duration
-        if run_time > max_run_time:
-            max_run_time = run_time
-
 def exploredVolumeCallback(msg):
+    global explored_volume
     explored_volume = msg.data
 
-    global time_duration, time_list2, explored_volume_list, max_explored_volume
-    time_list2 = np.append(time_list2, time_duration)
-    explored_volume_list = np.append(explored_volume_list, explored_volume)
-    max_explored_volume = explored_volume
 
 def travelingDistanceCallback(msg):
+    global traveling_distance
     traveling_distance = msg.data
 
-    global time_duration, time_list3, traveling_distance_list, max_traveling_diatance
-    time_list3 = np.append(time_list3, time_duration)
-    traveling_distance_list = np.append(traveling_distance_list, traveling_distance)
-    max_traveling_diatance = traveling_distance
-
 def listener():
-  global start_time_duration, time_duration, time_list1, time_list2, time_list3, run_time_list, explored_volume_list, traveling_distance_list
+  global time_duration, start_time_duration, explored_volume, traveling_distance, run_time, max_explored_volume, max_traveling_diatance, max_run_time, time_list1, time_list2, time_list3, run_time_list, explored_volume_list, traveling_distance_list
 
   rospy.init_node('realTimePlot')
   rospy.Subscriber("/time_duration", Float32, timeDurationCallback)
@@ -87,6 +75,20 @@ def listener():
   while not rospy.is_shutdown():
       r.sleep()
       count = count + 1
+
+      if count % 25 == 0:
+        max_explored_volume = explored_volume
+        max_traveling_diatance = traveling_distance
+        if run_time > max_run_time:
+            max_run_time = run_time
+
+        time_list2 = np.append(time_list2, time_duration)
+        explored_volume_list = np.append(explored_volume_list, explored_volume)
+        time_list3 = np.append(time_list3, time_duration)
+        traveling_distance_list = np.append(traveling_distance_list, traveling_distance)
+        time_list1 = np.append(time_list1, time_duration)
+        run_time_list = np.append(run_time_list, run_time)
+
       if count >= 100:
         count = 0
         l1.set_xdata(time_list2)
