@@ -11,7 +11,7 @@ mpl.rcParams['toolbar'] = 'None'
 plt.ion()
 
 time_duration = 0
-last_time_duration = 0
+last_time_duration = -1.0
 start_time_duration = 0
 first_iteration = 'True'
 
