@@ -37,7 +37,7 @@ def runTimeCallback(msg):
     run_time = msg.data
 
     global time_duration, last_time_duration, max_run_time, time_list1, run_time_list
-    if time_duration > last_time_duration + 0.2
+    if time_duration > last_time_duration + 0.2:
         time_list1 = np.append(time_list1, time_duration)
         run_time_list = np.append(run_time_list, run_time)
         last_time_duration = time_duration
