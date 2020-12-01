@@ -20,6 +20,6 @@ src/vehicle_simulator/mesh/tunnel
 
 src/vehicle_simulator/mesh/forest
 
-src/vehicle_simulator/log/metrics.txt
+src/vehicle_simulator/log/metrics*
 
-src/vehicle_simulator/log/trajectory.txt
+src/vehicle_simulator/log/trajectory*
