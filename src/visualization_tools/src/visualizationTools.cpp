@@ -64,6 +64,7 @@ pcl::VoxelGrid<pcl::PointXYZI> exploredVolumeDwzFilter;
 
 sensor_msgs::PointCloud2 overallMap2;
 
+ros::Publisher *pubOverallMapPtr = NULL;
 ros::Publisher *pubExploredAreaPtr = NULL;
 ros::Publisher *pubTrajectoryPtr = NULL;
 ros::Publisher *pubExploredVolumePtr = NULL;
@@ -126,7 +127,7 @@ void odometryHandler(const nav_msgs::Odometry::ConstPtr& odom)
   sensor_msgs::PointCloud2 trajectory2;
   pcl::toROSMsg(*trajectory, trajectory2);
   trajectory2.header.stamp = odom->header.stamp;
-  trajectory2.header.frame_id = "/map";
+  trajectory2.header.frame_id = "map";
   pubTrajectoryPtr->publish(trajectory2);
 }
 
@@ -174,7 +175,7 @@ void laserCloudHandler(const sensor_msgs::PointCloud2ConstPtr& laserCloudIn)
     sensor_msgs::PointCloud2 exploredArea2;
     pcl::toROSMsg(*exploredAreaCloud, exploredArea2);
     exploredArea2.header.stamp = laserCloudIn->header.stamp;
-    exploredArea2.header.frame_id = "/map";
+    exploredArea2.header.frame_id = "map";
     pubExploredAreaPtr->publish(exploredArea2);
 
     exploredAreaDisplayCount = 0;
@@ -213,6 +214,7 @@ int main(int argc, char** argv)
   ros::Subscriber subRuntime = nh.subscribe<std_msgs::Float32> ("/runtime", 5, runtimeHandler);
 
   ros::Publisher pubOverallMap = nh.advertise<sensor_msgs::PointCloud2> ("/overall_map", 5);
+  pubOverallMapPtr = &pubOverallMap;
 
   ros::Publisher pubExploredArea = nh.advertise<sensor_msgs::PointCloud2> ("/explored_areas", 5);
   pubExploredAreaPtr = &pubExploredArea;
@@ -228,8 +230,6 @@ int main(int argc, char** argv)
 
   ros::Publisher pubTimeDuration = nh.advertise<std_msgs::Float32> ("/time_duration", 5);
   pubTimeDurationPtr = &pubTimeDuration;
-
-  //ros::Publisher pubRuntime = nh.advertise<std_msgs::Float32> ("/runtime", 5);
 
   overallMapDwzFilter.setLeafSize(overallMapVoxelSize, overallMapVoxelSize, overallMapVoxelSize);
   exploredAreaDwzFilter.setLeafSize(exploredAreaVoxelSize, exploredAreaVoxelSize, exploredAreaVoxelSize);
@@ -261,10 +261,8 @@ int main(int argc, char** argv)
     overallMapDisplayCount++;
     if (overallMapDisplayCount >= 100 * overallMapDisplayInterval) {
       overallMap2.header.stamp = ros::Time().fromSec(systemTime);
-      overallMap2.header.frame_id = "/map";
-      pubOverallMap.publish(overallMap2);
-
-      //pubRuntime.publish(float((rand() % 1000) / 1000.0));
+      overallMap2.header.frame_id = "map";
+      pubOverallMapPtr->publish(overallMap2);
 
       overallMapDisplayCount = 0;
     }

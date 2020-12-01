@@ -13,6 +13,4 @@
     <param name="exploredAreaDisplayInterval" type="int" value="1" />
   </node>
 
-  <node pkg="visualization_tools" type="realTimePlot.py" name="realTimePlot" output="screen" respawn="true"/>
-
 </launch>
