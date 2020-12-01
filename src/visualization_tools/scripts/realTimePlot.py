@@ -11,6 +11,7 @@ mpl.rcParams['toolbar'] = 'None'
 plt.ion()
 
 time_duration = 0
+last_time_duration = 0
 start_time_duration = 0
 first_iteration = 'True'
 
@@ -35,11 +36,13 @@ def timeDurationCallback(msg):
 def runTimeCallback(msg):
     run_time = msg.data
 
-    global time_duration, max_run_time, time_list1, run_time_list
-    time_list1 = np.append(time_list1, time_duration)
-    run_time_list = np.append(run_time_list, run_time)
-    if run_time > max_run_time:
-        max_run_time = run_time
+    global time_duration, last_time_duration, max_run_time, time_list1, run_time_list
+    if time_duration > last_time_duration + 0.2
+        time_list1 = np.append(time_list1, time_duration)
+        run_time_list = np.append(run_time_list, run_time)
+        last_time_duration = time_duration
+        if run_time > max_run_time:
+            max_run_time = run_time
 
 def exploredVolumeCallback(msg):
     explored_volume = msg.data
@@ -48,7 +51,6 @@ def exploredVolumeCallback(msg):
     time_list2 = np.append(time_list2, time_duration)
     explored_volume_list = np.append(explored_volume_list, explored_volume)
     max_explored_volume = explored_volume
-
 
 def travelingDistanceCallback(msg):
     traveling_distance = msg.data
@@ -61,7 +63,7 @@ def travelingDistanceCallback(msg):
 def listener():
   global start_time_duration, time_duration, time_list1, time_list2, time_list3, run_time_list, explored_volume_list, traveling_distance_list
 
-  rospy.init_node('real_time_plot')
+  rospy.init_node('realTimePlot')
   rospy.Subscriber("/time_duration", Float32, timeDurationCallback)
   rospy.Subscriber("/runtime", Float32, runTimeCallback)
   rospy.Subscriber("/explored_volume", Float32, exploredVolumeCallback)
@@ -77,7 +79,7 @@ def listener():
   l2, = fig2.plot(time_list3, traveling_distance_list, color='r', label='Traveling Distance')
   fig3=fig.add_subplot(313)
   fig3.set_ylabel("Algorithm \n Runtime (s)", fontsize=12)
-  fig3.set_xlabel("Time Duration (s)", fontsize=12, labelpad=10) #only set once
+  fig3.set_xlabel("Time Duration (s)", fontsize=12) #only set once
   l3, = fig3.plot(time_list1, run_time_list, color='r', label='Algorithm Runtime')
 
   count = 0
