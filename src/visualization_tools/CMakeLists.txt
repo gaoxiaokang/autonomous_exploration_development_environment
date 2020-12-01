@@ -8,6 +8,7 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
+  rospy
   roscpp
   std_msgs
   sensor_msgs
@@ -22,6 +23,7 @@ find_package(PCL REQUIRED)
 
 catkin_package(
   CATKIN_DEPENDS
+  rospy
   roscpp
   std_msgs
   sensor_msgs
@@ -62,4 +64,7 @@ install(TARGETS visualizationTools
 
 install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+)
+install(DIRECTORY scripts/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts
 )

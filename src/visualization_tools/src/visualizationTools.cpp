@@ -64,7 +64,6 @@ pcl::VoxelGrid<pcl::PointXYZI> exploredVolumeDwzFilter;
 
 sensor_msgs::PointCloud2 overallMap2;
 
-ros::Publisher *pubOverallMapPtr = NULL;
 ros::Publisher *pubExploredAreaPtr = NULL;
 ros::Publisher *pubTrajectoryPtr = NULL;
 ros::Publisher *pubExploredVolumePtr = NULL;
@@ -214,7 +213,6 @@ int main(int argc, char** argv)
   ros::Subscriber subRuntime = nh.subscribe<std_msgs::Float32> ("/runtime", 5, runtimeHandler);
 
   ros::Publisher pubOverallMap = nh.advertise<sensor_msgs::PointCloud2> ("/overall_map", 5);
-  pubOverallMapPtr = &pubOverallMap;
 
   ros::Publisher pubExploredArea = nh.advertise<sensor_msgs::PointCloud2> ("/explored_areas", 5);
   pubExploredAreaPtr = &pubExploredArea;
@@ -230,6 +228,8 @@ int main(int argc, char** argv)
 
   ros::Publisher pubTimeDuration = nh.advertise<std_msgs::Float32> ("/time_duration", 5);
   pubTimeDurationPtr = &pubTimeDuration;
+
+  //ros::Publisher pubRuntime = nh.advertise<std_msgs::Float32> ("/runtime", 5);
 
   overallMapDwzFilter.setLeafSize(overallMapVoxelSize, overallMapVoxelSize, overallMapVoxelSize);
   exploredAreaDwzFilter.setLeafSize(exploredAreaVoxelSize, exploredAreaVoxelSize, exploredAreaVoxelSize);
@@ -262,7 +262,9 @@ int main(int argc, char** argv)
     if (overallMapDisplayCount >= 100 * overallMapDisplayInterval) {
       overallMap2.header.stamp = ros::Time().fromSec(systemTime);
       overallMap2.header.frame_id = "map";
-      pubOverallMapPtr->publish(overallMap2);
+      pubOverallMap.publish(overallMap2);
+
+      //pubRuntime.publish(float((rand() % 1000) / 1000.0));
 
       overallMapDisplayCount = 0;
     }
