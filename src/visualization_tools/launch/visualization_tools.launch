@@ -3,7 +3,8 @@
   <arg name="world_name" default="garage"/>
 
   <node pkg="visualization_tools" type="visualizationTools" name="visualizationTools" output="screen">
-    <param name="logFolder" type="string" value="$(find vehicle_simulator)/log" />
+    <param name="metricFile" type="string" value="$(find vehicle_simulator)/log/metrics.txt" />
+    <param name="trajFile" type="string" value="$(find vehicle_simulator)/log/trajectory.txt" />
     <param name="mapFile" type="string" value="$(find vehicle_simulator)/mesh/$(arg world_name)/preview/pointcloud.ply" />
     <param name="overallMapVoxelSize" type="double" value="0.5" />
     <param name="exploredAreaVoxelSize" type="double" value="0.3" />

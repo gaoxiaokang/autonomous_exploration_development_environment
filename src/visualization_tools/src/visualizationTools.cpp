@@ -28,7 +28,8 @@ using namespace std;
 
 const double PI = 3.1415926;
 
-string logFolder;
+string metricFile;
+string trajFile;
 string mapFile;
 double overallMapVoxelSize = 0.5;
 double exploredAreaVoxelSize = 0.3;
@@ -197,7 +198,8 @@ int main(int argc, char** argv)
   ros::NodeHandle nh;
   ros::NodeHandle nhPrivate = ros::NodeHandle("~");
 
-  nhPrivate.getParam("logFolder", logFolder);
+  nhPrivate.getParam("metricFile", metricFile);
+  nhPrivate.getParam("trajFile", trajFile);
   nhPrivate.getParam("mapFile", mapFile);
   nhPrivate.getParam("overallMapVoxelSize", overallMapVoxelSize);
   nhPrivate.getParam("exploredAreaVoxelSize", exploredAreaVoxelSize);
@@ -247,11 +249,8 @@ int main(int argc, char** argv)
 
   pcl::toROSMsg(*overallMapCloudDwz, overallMap2);
 
-  string metricFileName = logFolder + "/metrics.txt";
-  metricFilePtr = fopen(metricFileName.c_str(), "w");
-
-  string trajFileName = logFolder + "/trajectory.txt";
-  trajFilePtr = fopen(trajFileName.c_str(), "w");
+  metricFilePtr = fopen(metricFile.c_str(), "w");
+  trajFilePtr = fopen(trajFile.c_str(), "w");
 
   ros::Rate rate(100);
   bool status = ros::ok();
