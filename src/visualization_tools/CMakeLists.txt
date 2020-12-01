@@ -65,6 +65,7 @@ install(TARGETS visualizationTools
 install(DIRECTORY launch/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
 )
-install(DIRECTORY scripts/
+install(PROGRAMS scripts/realTimePlot.py
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts
 )
+
