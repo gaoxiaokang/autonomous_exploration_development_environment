@@ -249,6 +249,13 @@ int main(int argc, char** argv)
 
   pcl::toROSMsg(*overallMapCloudDwz, overallMap2);
 
+  time_t systemTime = time(0);
+  tm *ltm = localtime(&systemTime);
+  string timeString = to_string(1900 + ltm->tm_year) + "-" + to_string(1 + ltm->tm_mon) + "-" + to_string(ltm->tm_mday) + "-" +
+                      to_string(ltm->tm_hour) + "-" + to_string(ltm->tm_min) + "-" + to_string(ltm->tm_sec);
+
+  metricFile += "_" + timeString + ".txt";
+  trajFile += "_" + timeString + ".txt";
   metricFilePtr = fopen(metricFile.c_str(), "w");
   trajFilePtr = fopen(trajFile.c_str(), "w");
 
