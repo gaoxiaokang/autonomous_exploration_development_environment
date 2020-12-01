@@ -59,14 +59,15 @@ def listener():
 
   fig=plt.figure(figsize=(8,7))
   fig1=fig.add_subplot(311)
+  plt.title("Exploration Metrics\n", fontsize=14)
   plt.margins(x=0.001)
-  fig1.set_ylabel("Explored \n Volume (m$^3$)", fontsize=12)
+  fig1.set_ylabel("Explored\nVolume (m$^3$)", fontsize=12)
   l1, = fig1.plot(time_list2, explored_volume_list, color='r', label='Explored Volume')
   fig2=fig.add_subplot(312)
-  fig2.set_ylabel("Traveling \n Distance (m)", fontsize=12)
+  fig2.set_ylabel("Traveling\nDistance (m)", fontsize=12)
   l2, = fig2.plot(time_list3, traveling_distance_list, color='r', label='Traveling Distance')
   fig3=fig.add_subplot(313)
-  fig3.set_ylabel("Algorithm \n Runtime (s)", fontsize=12)
+  fig3.set_ylabel("Algorithm\nRuntime (s)", fontsize=12)
   fig3.set_xlabel("Time Duration (s)", fontsize=12) #only set once
   l3, = fig3.plot(time_list1, run_time_list, color='r', label='Algorithm Runtime')
 
