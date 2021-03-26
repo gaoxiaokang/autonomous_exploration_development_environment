@@ -43,8 +43,7 @@
   <param name="camera_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/camera.urdf.xacro'" />
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_camera" args="-urdf -param /camera_description -model camera"/>
 
-  <arg name="gpu" default="false"/>
-  <param name="lidar_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/lidar.urdf.xacro' gpu:=$(arg gpu)" />
+  <param name="lidar_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/lidar.urdf.xacro'" />
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_lidar" args="-urdf -param /lidar_description -model lidar"/>
 
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/robot.urdf.xacro'" />
