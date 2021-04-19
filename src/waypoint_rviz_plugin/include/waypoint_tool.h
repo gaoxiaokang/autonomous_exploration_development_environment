@@ -5,6 +5,7 @@
 #include <ros/ros.h>
 #include <QObject>
 
+#include <sensor_msgs/Joy.h>
 #include <nav_msgs/Odometry.h>
 #include <geometry_msgs/PointStamped.h>
 
@@ -39,6 +40,7 @@ private:
   ros::NodeHandle nh_;
   ros::Subscriber sub_;
   ros::Publisher pub_;
+  ros::Publisher pub_joy_;
 
   StringProperty* topic_property_;
 };
