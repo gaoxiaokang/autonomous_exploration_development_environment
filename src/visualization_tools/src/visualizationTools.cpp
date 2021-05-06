@@ -87,7 +87,10 @@ void odometryHandler(const nav_msgs::Odometry::ConstPtr& odom)
 
   if (systemInited) {
     timeDuration = systemTime - systemInitTime;
-    pubTimeDurationPtr->publish(timeDuration);
+    
+    std_msgs::Float32 timeDurationMsg;
+    timeDurationMsg.data = timeDuration;
+    pubTimeDurationPtr->publish(timeDurationMsg);
   }
 
   float dx = odom->pose.pose.position.x - vehicleX;
@@ -183,8 +186,13 @@ void laserCloudHandler(const sensor_msgs::PointCloud2ConstPtr& laserCloudIn)
 
   fprintf(metricFilePtr, "%f %f %f %f\n", exploredVolume, travelingDis, runtime, timeDuration);
 
-  pubExploredVolumePtr->publish(exploredVolume);
-  pubTravelingDisPtr->publish(travelingDis);
+  std_msgs::Float32 exploredVolumeMsg;
+  exploredVolumeMsg.data = exploredVolume;
+  pubExploredVolumePtr->publish(exploredVolumeMsg);
+  
+  std_msgs::Float32 travelingDisMsg;
+  travelingDisMsg.data = travelingDis;
+  pubTravelingDisPtr->publish(travelingDisMsg);
 }
 
 void runtimeHandler(const std_msgs::Float32::ConstPtr& runtimeIn)
@@ -269,8 +277,6 @@ int main(int argc, char** argv)
       overallMap2.header.stamp = ros::Time().fromSec(systemTime);
       overallMap2.header.frame_id = "/map";
       pubOverallMap.publish(overallMap2);
-
-      //pubRuntime.publish(float((rand() % 1000) / 1000.0));
 
       overallMapDisplayCount = 0;
     }
