@@ -2,7 +2,7 @@
 
   <arg name="world_name" default="forest"/>
   <arg name="gazebo_gui" default="false"/>
-  <arg name="checkTerrainConn" default="false"/>
+  <arg name="checkTerrainConn" default="true"/>
 
   <include file="$(find ps3joy)/launch/ps3.launch" />
 
