@@ -40,8 +40,8 @@
     <arg name="world_name" value="$(find vehicle_simulator)/world/$(arg world_name).world"/>
   </include>
 
-  <param name="camera_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/camera.urdf.xacro'" />
-  <node pkg="gazebo_ros" type="spawn_model" name="spawn_camera" args="-urdf -param /camera_description -model camera"/>
+  <param name="rgbd_camera_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/rgbd_camera.urdf.xacro'" />
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_rgbd_camera" args="-urdf -param /rgbd_camera_description -model rgbd_camera"/>
 
   <param name="lidar_description" command="$(find xacro)/xacro --inorder '$(find vehicle_simulator)/urdf/lidar.urdf.xacro'" />
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_lidar" args="-urdf -param /lidar_description -model lidar"/>
