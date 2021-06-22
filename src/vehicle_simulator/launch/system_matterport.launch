@@ -1,7 +1,7 @@
 <launch>
 
   <arg name="world_name" default="matterport"/>
-  <arg name="gazebo_gui" default="true"/>
+  <arg name="gazebo_gui" default="false"/>
   <arg name="checkTerrainConn" default="false"/>
 
   <include file="$(find ps3joy)/launch/ps3.launch" />
