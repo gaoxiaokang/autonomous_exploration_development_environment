@@ -1,7 +1,7 @@
 <launch>
 
-  <arg name="world_name" default="indoor"/>
-  <arg name="gazebo_gui" default="false"/>
+  <arg name="world_name" default="matterport"/>
+  <arg name="gazebo_gui" default="true"/>
   <arg name="checkTerrainConn" default="false"/>
 
   <include file="$(find ps3joy)/launch/ps3.launch" />
@@ -21,9 +21,9 @@
 
   <include file="$(find sensor_scan_generation)/launch/sensor_scan_generation.launch" />
 
-  <include file="$(find visualization_tools)/launch/visualization_tools.launch" >
+  <!--include file="$(find visualization_tools)/launch/visualization_tools.launch" >
     <arg name="world_name" value="$(arg world_name)"/>
-  </include>
+  </include-->
 
   <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA" args="-d $(find vehicle_simulator)/rviz/vehicle_simulator.rviz" respawn="true"/>
 

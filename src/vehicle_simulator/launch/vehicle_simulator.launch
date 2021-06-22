@@ -2,7 +2,7 @@
 
   <arg name="sensorOffsetX" default="0"/>
   <arg name="sensorOffsetY" default="0"/>
-  <arg name="vehicleHeight" default="0.75"/>
+  <arg name="vehicleHeight" default="0.5"/>
 
   <arg name="vehicleX" default="0"/>
   <arg name="vehicleY" default="0"/>
@@ -11,7 +11,7 @@
 
   <arg name="terrainVoxelSize" default="0.05"/>
   <arg name="groundHeightThre" default="0.1"/>
-  <arg name="adjustZ" default="true"/>
+  <arg name="adjustZ" default="false"/>
   <arg name="terrainRadiusZ" default="1.0"/>
   <arg name="minTerrainPointNumZ" default="5"/>
   <arg name="smoothRateZ" default="0.5"/>

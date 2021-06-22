@@ -3,10 +3,10 @@
   <arg name="sensorOffsetX" default="0"/>
   <arg name="sensorOffsetY" default="0"/>
   <arg name="twoWayDrive" default="true"/>
-  <arg name="maxSpeed" default="2.0"/>
+  <arg name="maxSpeed" default="1.0"/>
   <arg name="autonomyMode" default="true"/>
-  <arg name="autonomySpeed" default="2.0"/>
-  <arg name="joyToSpeedDelay" default="2.0"/>
+  <arg name="autonomySpeed" default="1.0"/>
+  <arg name="joyToSpeedDelay" default="1.0"/>
 
   <node pkg="local_planner" type="localPlanner" name="localPlanner" output="screen" required="true">
     <param name="pathFolder" type="string" value="$(find local_planner)/paths" />
@@ -33,12 +33,12 @@
     <param name="dirWeight" type="double" value="0.02" />
     <param name="dirThre" type="double" value="90.0" />
     <param name="dirToVehicle" type="bool" value="false" />
-    <param name="pathScale" type="double" value="1.25" />
-    <param name="minPathScale" type="double" value="0.75" />
-    <param name="pathScaleStep" type="double" value="0.25" />
+    <param name="pathScale" type="double" value="0.5" />
+    <param name="minPathScale" type="double" value="0.3" />
+    <param name="pathScaleStep" type="double" value="0.1" />
     <param name="pathScaleBySpeed" type="bool" value="true" />
-    <param name="minPathRange" type="double" value="1.0" />
-    <param name="pathRangeStep" type="double" value="0.5" />
+    <param name="minPathRange" type="double" value="0.5" />
+    <param name="pathRangeStep" type="double" value="0.1" />
     <param name="pathRangeBySpeed" type="bool" value="true" />
     <param name="pathCropByGoal" type="bool" value="true" />
     <param name="autonomyMode" value="$(arg autonomyMode)" />
@@ -64,7 +64,7 @@
     <param name="switchTimeThre" type="double" value="1.0" />
     <param name="dirDiffThre" type="double" value="0.1" />
     <param name="stopDisThre" type="double" value="0.2" />
-    <param name="slowDwnDisThre" type="double" value="0.85" />
+    <param name="slowDwnDisThre" type="double" value="0.3" />
     <param name="useInclRateToSlow" type="bool" value="false" />
     <param name="inclRateThre" type="double" value="120.0" />
     <param name="slowRate1" type="double" value="0.25" />
