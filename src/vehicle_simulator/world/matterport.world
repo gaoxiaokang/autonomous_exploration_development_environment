@@ -20,7 +20,7 @@
     </physics>
     <scene>
       <ambient>1 1 1 1</ambient>
-      <background>0.2 0.2 0.2 1</background>
+      <background>0 0 0 1</background>
       <shadows>0</shadows>
     </scene>
     <spherical_coordinates>
@@ -51,7 +51,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>0 0 150 0 1.5708 0</pose>
+        <pose frame=''>0 0 20 0 1.5708 0</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -92,7 +92,7 @@
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
       </link>
-      <pose frame=''>0 0 1 0 0 0</pose>
+      <pose frame=''>0 0 0 0 0 0</pose>
     </model>
   </world>
 </sdf>
