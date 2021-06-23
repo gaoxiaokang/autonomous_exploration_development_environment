@@ -34,7 +34,7 @@
         </image>
         <clip>
           <near>0.1</near>
-          <far>15.0</far>
+          <far>30.0</far>
         </clip>
       </camera>
       <plugin name="rgbd_camera_controller" filename="libgazebo_ros_depth_camera.so">
@@ -48,7 +48,7 @@
           <pointCloudTopicName>/rgbd_camera/depth/points</pointCloudTopicName>
           <frameName>rgbd_camera</frameName>
           <pointCloudCutoff>0.1</pointCloudCutoff>
-          <pointCloudCutoffMax>15.0</pointCloudCutoffMax>
+          <pointCloudCutoffMax>30.0</pointCloudCutoffMax>
           <distortionK1>0</distortionK1>
           <distortionK2>0</distortionK2>
           <distortionK3>0</distortionK3>
