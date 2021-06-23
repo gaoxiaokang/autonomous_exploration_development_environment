@@ -313,6 +313,7 @@ int main(int argc, char** argv)
   nhPrivate.getParam("vehicleY", vehicleY);
   nhPrivate.getParam("vehicleZ", vehicleZ);
   nhPrivate.getParam("terrainZ", terrainZ);
+  nhPrivate.getParam("vehicleYaw", vehicleYaw);
   nhPrivate.getParam("terrainVoxelSize", terrainVoxelSize);
   nhPrivate.getParam("groundHeightThre", groundHeightThre);
   nhPrivate.getParam("adjustZ", adjustZ);
@@ -343,7 +344,7 @@ int main(int argc, char** argv)
 
   ros::Publisher pubModelState = nh.advertise<gazebo_msgs::ModelState>("/gazebo/set_model_state", 5);
   gazebo_msgs::ModelState cameraState;
-  cameraState.model_name = "camera";
+  cameraState.model_name = "rgbd_camera";
   gazebo_msgs::ModelState lidarState;
   lidarState.model_name = "lidar";
   gazebo_msgs::ModelState robotState;

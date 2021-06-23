@@ -16,7 +16,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <box size="0.6 0.4 0.3"/>
+        <box size="0.3 0.2 0.15"/>
       </geometry>
     </visual>
 
@@ -28,7 +28,7 @@
   </link>
 
   <joint name="base_link_joint" type="fixed">
-    <origin xyz="0.0 0 -0.5" rpy="0 0 0"/>
+    <origin xyz="0.0 0 -0.375" rpy="0 0 0"/>
     <parent link="base_origin"/>
     <child link="base_link"/>
   </joint>
@@ -58,7 +58,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.15" length="0.1"/>
+        <cylinder radius="0.075" length="0.05"/>
       </geometry>
     </visual>
 
@@ -70,7 +70,7 @@
   </link>
 
   <joint name="left_front_joint" type="fixed">
-    <origin xyz="0.2 -0.25 -0.1" rpy="1.57 0 0"/>
+    <origin xyz="0.1 -0.125 -0.05" rpy="1.57 0 0"/>
     <parent link="base_link"/>
     <child link="left_front_wheel"/>
   </joint>
@@ -79,7 +79,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.15" length="0.1"/>
+        <cylinder radius="0.075" length="0.05"/>
       </geometry>
     </visual>
 
@@ -91,7 +91,7 @@
   </link>
 
   <joint name="rigth_front_joint" type="fixed">
-    <origin xyz="0.2 0.25 -0.1" rpy="-1.57 0 0"/>
+    <origin xyz="0.1 0.125 -0.05" rpy="-1.57 0 0"/>
     <parent link="base_link"/>
     <child link="right_front_wheel"/>
   </joint>
@@ -100,7 +100,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.15" length="0.1"/>
+        <cylinder radius="0.075" length="0.05"/>
       </geometry>
     </visual>
 
@@ -112,7 +112,7 @@
   </link>
 
   <joint name="left_rear_joint" type="fixed">
-    <origin xyz="-0.2 -0.25 -0.1" rpy="1.57 0 0"/>
+    <origin xyz="-0.1 -0.125 -0.05" rpy="1.57 0 0"/>
     <parent link="base_link"/>
     <child link="left_rear_wheel"/>
   </joint>
@@ -121,7 +121,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.15" length="0.1"/>
+        <cylinder radius="0.075" length="0.05"/>
       </geometry>
     </visual>
 
@@ -133,7 +133,7 @@
   </link>
 
   <joint name="right_rear_joint" type="fixed">
-    <origin xyz="-0.2 0.25 -0.1" rpy="-1.57 0 0"/>
+    <origin xyz="-0.1 0.125 -0.05" rpy="-1.57 0 0"/>
     <parent link="base_link"/>
     <child link="right_rear_wheel"/>
   </joint>

@@ -11,7 +11,7 @@
         <linear>0</linear>
         <quadratic>0</quadratic>
       </attenuation>
-      <direction>0 1 -1</direction>
+      <direction>0 1 0</direction>
     </light>
     <physics name='default_physics' default='0' type='ode'>
       <max_step_size>0.001</max_step_size>
@@ -19,8 +19,8 @@
       <real_time_update_rate>1000</real_time_update_rate>
     </physics>
     <scene>
-      <ambient>0.8 0.8 0.8 1</ambient>
-      <background>0.3 0.3 0.3 1</background>
+      <ambient>1 1 1 1</ambient>
+      <background>0 0 0 1</background>
       <shadows>0</shadows>
     </scene>
     <spherical_coordinates>
@@ -51,7 +51,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose frame=''>0 0 150 0 1.5708 0</pose>
+        <pose frame=''>0 0 20 0 1.5708 0</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -65,7 +65,7 @@
         <collision name='collision'>
           <geometry>
             <mesh>
-              <uri>model://campus/meshes/campus.dae</uri>
+              <uri>model://matterport/matterport.dae</uri>
             </mesh>
           </geometry>
           <max_contacts>10</max_contacts>
@@ -85,14 +85,14 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>model://campus/meshes/campus.dae</uri>
+              <uri>model://matterport/matterport.dae</uri>
             </mesh>
           </geometry>
         </visual>
         <self_collide>0</self_collide>
         <kinematic>0</kinematic>
       </link>
-      <pose frame=''>0 0 1 0 0 0</pose>
+      <pose frame=''>0 0 0 0 0 0</pose>
     </model>
   </world>
 </sdf>
