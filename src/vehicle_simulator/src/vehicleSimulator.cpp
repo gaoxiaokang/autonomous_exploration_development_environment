@@ -313,6 +313,7 @@ int main(int argc, char** argv)
   nhPrivate.getParam("vehicleY", vehicleY);
   nhPrivate.getParam("vehicleZ", vehicleZ);
   nhPrivate.getParam("terrainZ", terrainZ);
+  nhPrivate.getParam("vehicleYaw", vehicleYaw);
   nhPrivate.getParam("terrainVoxelSize", terrainVoxelSize);
   nhPrivate.getParam("groundHeightThre", groundHeightThre);
   nhPrivate.getParam("adjustZ", adjustZ);

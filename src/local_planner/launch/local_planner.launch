@@ -7,6 +7,8 @@
   <arg name="autonomyMode" default="true"/>
   <arg name="autonomySpeed" default="2.0"/>
   <arg name="joyToSpeedDelay" default="2.0"/>
+  <arg name="goalX" default="0"/>
+  <arg name="goalY" default="0"/>
 
   <node pkg="local_planner" type="localPlanner" name="localPlanner" output="screen" required="true">
     <param name="pathFolder" type="string" value="$(find local_planner)/paths" />
@@ -46,8 +48,8 @@
     <param name="joyToSpeedDelay" value="$(arg joyToSpeedDelay)" />
     <param name="joyToCheckObstacleDelay" type="double" value="5.0" />
     <param name="goalClearRange" type="double" value="0.5" />
-    <param name="goalX" type="double" value="0" />
-    <param name="goalY" type="double" value="0" />
+    <param name="goalX" type="double" value="$(arg goalX)" />
+    <param name="goalY" type="double" value="$(arg goalY)" />
   </node>
 
   <node pkg="local_planner" type="pathFollower" name="pathFollower" output="screen" required="true">
