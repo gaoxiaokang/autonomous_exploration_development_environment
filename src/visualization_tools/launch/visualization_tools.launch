@@ -6,7 +6,7 @@
     <param name="metricFile" type="string" value="$(find vehicle_simulator)/log/metrics" />
     <param name="trajFile" type="string" value="$(find vehicle_simulator)/log/trajectory" />
     <param name="mapFile" type="string" value="$(find vehicle_simulator)/mesh/$(arg world_name)/preview/pointcloud.ply" />
-    <param name="overallMapVoxelSize" type="double" value="0.2" />
+    <param name="overallMapVoxelSize" type="double" value="0.05" />
     <param name="exploredAreaVoxelSize" type="double" value="0.1" />
     <param name="exploredVolumeVoxelSize" type="double" value="0.2" />
     <param name="trajInterval" type="double" value="0.1" />
