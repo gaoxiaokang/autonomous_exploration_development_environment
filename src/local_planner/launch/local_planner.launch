@@ -6,7 +6,7 @@
   <arg name="maxSpeed" default="1.0"/>
   <arg name="autonomyMode" default="true"/>
   <arg name="autonomySpeed" default="1.0"/>
-  <arg name="joyToSpeedDelay" default="1.0"/>
+  <arg name="joyToSpeedDelay" default="2.0"/>
   <arg name="goalX" default="0"/>
   <arg name="goalY" default="0"/>
 
