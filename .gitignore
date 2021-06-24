@@ -10,24 +10,18 @@ install
 
 .DS_Store
 
-src/vehicle_simulator/mesh/campus
+src/vehicle_simulator/mesh
 
-src/vehicle_simulator/mesh/indoor
+!src/vehicle_simulator/mesh/matterport
 
-src/vehicle_simulator/mesh/garage
+src/vehicle_simulator/mesh/matterport/meshes
 
-src/vehicle_simulator/mesh/tunnel
+src/vehicle_simulator/mesh/matterport/segmentations
 
-src/vehicle_simulator/mesh/forest
+src/vehicle_simulator/mesh/matterport/preview
 
-src/vehicle_simulator/mesh/matterport/*mtl
+src/vehicle_simulator/log
 
-src/vehicle_simulator/mesh/matterport/*obj
+!download_environments.sh
 
-src/vehicle_simulator/mesh/matterport/*dae
-
-src/vehicle_simulator/mesh/matterport/*jpg
-
-src/vehicle_simulator/log/metrics*
-
-src/vehicle_simulator/log/trajectory*
+!readme.txt
