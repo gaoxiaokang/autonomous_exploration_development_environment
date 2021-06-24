@@ -8,6 +8,7 @@
   <arg name="vehicleY" default="0"/>
   <arg name="vehicleZ" default="0"/>
   <arg name="terrainZ" default="0"/>
+  <arg name="vehicleYaw" default="0"/>
 
   <arg name="terrainVoxelSize" default="0.05"/>
   <arg name="groundHeightThre" default="0.1"/>
@@ -58,6 +59,7 @@
     <param name="vehicleY" value="$(arg vehicleY)" />
     <param name="vehicleZ" value="$(arg vehicleZ)" />
     <param name="terrainZ" value="$(arg terrainZ)" />
+    <param name="vehicleYaw" value="$(arg vehicleYaw)" />
     <param name="terrainVoxelSize" value="$(arg terrainVoxelSize)" />
     <param name="groundHeightThre" value="$(arg groundHeightThre)" />
     <param name="adjustZ" value="$(arg adjustZ)" />
