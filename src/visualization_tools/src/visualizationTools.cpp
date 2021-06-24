@@ -41,8 +41,8 @@ int exploredAreaDisplayInterval = 1;
 int exploredAreaDisplayCount = 0;
 
 pcl::PointCloud<pcl::PointXYZI>::Ptr laserCloud(new pcl::PointCloud<pcl::PointXYZI>());
-pcl::PointCloud<pcl::PointXYZ>::Ptr overallMapCloud(new pcl::PointCloud<pcl::PointXYZ>());
-pcl::PointCloud<pcl::PointXYZ>::Ptr overallMapCloudDwz(new pcl::PointCloud<pcl::PointXYZ>());
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr overallMapCloud(new pcl::PointCloud<pcl::PointXYZRGB>());
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr overallMapCloudDwz(new pcl::PointCloud<pcl::PointXYZRGB>());
 pcl::PointCloud<pcl::PointXYZI>::Ptr exploredAreaCloud(new pcl::PointCloud<pcl::PointXYZI>());
 pcl::PointCloud<pcl::PointXYZI>::Ptr exploredAreaCloud2(new pcl::PointCloud<pcl::PointXYZI>());
 pcl::PointCloud<pcl::PointXYZI>::Ptr exploredVolumeCloud(new pcl::PointCloud<pcl::PointXYZI>());
@@ -59,7 +59,7 @@ bool systemInited = false;
 float vehicleX = 0, vehicleY = 0, vehicleZ = 0;
 float exploredVolume = 0, travelingDis = 0, runtime = 0, timeDuration = 0;
 
-pcl::VoxelGrid<pcl::PointXYZ> overallMapDwzFilter;
+pcl::VoxelGrid<pcl::PointXYZRGB> overallMapDwzFilter;
 pcl::VoxelGrid<pcl::PointXYZI> exploredAreaDwzFilter;
 pcl::VoxelGrid<pcl::PointXYZI> exploredVolumeDwzFilter;
 
