@@ -12,14 +12,8 @@ install
 
 src/vehicle_simulator/mesh
 
-!src/vehicle_simulator/mesh/download_environments.sh
-
-!src/vehicle_simulator/mesh/matterport/meshes/readme.txt
-
-!src/vehicle_simulator/mesh/matterport/segmentations/readme.txt
-
-!src/vehicle_simulator/mesh/matterport/preview/readme.txt
-
 src/vehicle_simulator/log
 
-!src/vehicle_simulator/log/readme.txt
+!download_environments.sh
+
+!readme.txt
