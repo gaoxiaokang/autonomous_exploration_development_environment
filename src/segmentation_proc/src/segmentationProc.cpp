@@ -29,7 +29,7 @@ struct RegionPoint {
      float box_min_x, box_min_y, box_min_z, box_max_x, box_max_y, box_max_z;
      float height;
      int region_index, level_index;
-     uint8_t label[1024];
+     std::uint8_t label[1024];
 };
 
 POINT_CLOUD_REGISTER_POINT_STRUCT (RegionPoint,
@@ -45,7 +45,7 @@ POINT_CLOUD_REGISTER_POINT_STRUCT (RegionPoint,
                                    (float, height, height)
                                    (int, region_index, region_index)
                                    (int, level_index, level_index)
-                                   (uint8_t[1024], label, label))
+                                   (std::uint8_t[1024], label, label))
 
 // define object point
 struct ObjectPoint {
