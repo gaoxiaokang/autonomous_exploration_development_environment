@@ -367,7 +367,7 @@ int main(int argc, char** argv)
   visualization_msgs::MarkerArray regionMarkerArray;
   regionMarkerArray.markers.resize(regionNum);
   for (int i = 0; i < regionNum; i++) {
-    regionMarkerArray.markers[i].header.frame_id = "/map";
+    regionMarkerArray.markers[i].header.frame_id = "map";
     regionMarkerArray.markers[i].header.stamp = ros::Time().fromSec(systemTime);
     regionMarkerArray.markers[i].ns = "region";
     regionMarkerArray.markers[i].id = regionAll->points[i].region_index;
