@@ -23,6 +23,7 @@ string seg_file_dir;
 int segDisplayInterval = 2;
 int segDisplayCount = 0;
 
+// define region point
 struct RegionPoint {
      float x, y, z;
      float box_min_x, box_min_y, box_min_z, box_max_x, box_max_y, box_max_z;
@@ -46,6 +47,7 @@ POINT_CLOUD_REGISTER_POINT_STRUCT (RegionPoint,
                                    (int, level_index, level_index)
                                    (uint8_t[1024], label, label))
 
+// define object point
 struct ObjectPoint {
      float x, y, z;
      float axis0_x, axis0_y, axis0_z;
@@ -354,11 +356,13 @@ int main(int argc, char** argv)
     printf("\nCouldn't read segmentation file.\n");
   }
 
+  time_t systemTime = time(0);
+
+  // prepare point cloud messages
   pcl::toROSMsg(*regionAll, regionAll2);
   pcl::toROSMsg(*objectAll, objectAll2);
 
-  time_t systemTime = time(0);
-
+  // prepare marker array messages
   int regionNum = regionAll->points.size();
   visualization_msgs::MarkerArray regionMarkerArray;
   regionMarkerArray.markers.resize(regionNum);
@@ -418,12 +422,12 @@ int main(int argc, char** argv)
 
     segDisplayCount++;
     if (segDisplayCount >= 100 * segDisplayInterval) {
-      // publish regions
+      // publish point clouds with regions
       regionAll2.header.stamp = ros::Time().fromSec(systemTime);
       regionAll2.header.frame_id = "/map";
       pubRegion.publish(regionAll2);
 
-      // publish objects
+      // publish point clouds with objects
       objectAll2.header.stamp = ros::Time().fromSec(systemTime);
       objectAll2.header.frame_id = "/map";
       pubObject.publish(objectAll2);
