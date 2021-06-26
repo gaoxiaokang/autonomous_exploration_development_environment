@@ -393,7 +393,7 @@ int main(int argc, char** argv)
   visualization_msgs::MarkerArray objectMarkerArray;
   objectMarkerArray.markers.resize(objectNum);
   for (int i = 0; i < objectNum; i++) {
-    objectMarkerArray.markers[i].header.frame_id = "/map";
+    objectMarkerArray.markers[i].header.frame_id = "map";
     objectMarkerArray.markers[i].header.stamp = ros::Time().fromSec(systemTime);
     objectMarkerArray.markers[i].ns = "object";
     objectMarkerArray.markers[i].id = objectAll->points[i].object_index;
@@ -424,12 +424,12 @@ int main(int argc, char** argv)
     if (segDisplayCount >= 100 * segDisplayInterval) {
       // publish point clouds with regions
       regionAll2.header.stamp = ros::Time().fromSec(systemTime);
-      regionAll2.header.frame_id = "/map";
+      regionAll2.header.frame_id = "map";
       pubRegion.publish(regionAll2);
 
       // publish point clouds with objects
       objectAll2.header.stamp = ros::Time().fromSec(systemTime);
-      objectAll2.header.frame_id = "/map";
+      objectAll2.header.frame_id = "map";
       pubObject.publish(objectAll2);
 
       // publish marker arrays
