@@ -38,6 +38,8 @@
     <arg name="world_name" value="$(arg world_name)"/>
   </include>
 
+  <include file="$(find segmentation_proc)/launch/segmentation_proc.launch" />
+
   <node launch-prefix="nice" pkg="rviz" type="rviz" name="rvizGA" args="-d $(find vehicle_simulator)/rviz/vehicle_simulator.rviz" respawn="true"/>
 
 </launch>
