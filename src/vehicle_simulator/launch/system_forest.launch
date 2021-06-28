@@ -2,6 +2,7 @@
 
   <arg name="world_name" default="forest"/>
   <arg name="vehicleHeight" default="0.75"/>
+  <arg name="cameraOffsetZ" default="0"/>
   <arg name="vehicleX" default="0"/>
   <arg name="vehicleY" default="0"/>
   <arg name="terrainZ" default="0"/>
@@ -12,6 +13,7 @@
   <include file="$(find ps3joy)/launch/ps3.launch" />
 
   <include file="$(find local_planner)/launch/local_planner.launch" >
+    <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
     <arg name="goalX" value="$(arg vehicleX)"/>
     <arg name="goalY" value="$(arg vehicleY)"/>
   </include>
@@ -25,6 +27,7 @@
   <include file="$(find vehicle_simulator)/launch/vehicle_simulator.launch" >
     <arg name="world_name" value="$(arg world_name)"/>
     <arg name="vehicleHeight" value="$(arg vehicleHeight)"/>
+    <arg name="cameraOffsetZ" value="$(arg cameraOffsetZ)"/>
     <arg name="vehicleX" value="$(arg vehicleX)"/>
     <arg name="vehicleY" value="$(arg vehicleY)"/>
     <arg name="terrainZ" value="$(arg terrainZ)"/>
