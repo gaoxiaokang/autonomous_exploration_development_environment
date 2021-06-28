@@ -35,6 +35,7 @@ using namespace std;
 const double PI = 3.1415926;
 
 bool use_gazebo_time = false;
+double cameraOffsetZ = 0;
 double sensorOffsetX = 0;
 double sensorOffsetY = 0;
 double vehicleHeight = 0.75;
@@ -306,6 +307,7 @@ int main(int argc, char** argv)
   ros::NodeHandle nhPrivate = ros::NodeHandle("~");
 
   nhPrivate.getParam("use_gazebo_time", use_gazebo_time);
+  nhPrivate.getParam("cameraOffsetZ", cameraOffsetZ);
   nhPrivate.getParam("sensorOffsetX", sensorOffsetX);
   nhPrivate.getParam("sensorOffsetY", sensorOffsetY);
   nhPrivate.getParam("vehicleHeight", vehicleHeight);
@@ -419,7 +421,7 @@ int main(int argc, char** argv)
     cameraState.pose.orientation = geoQuat;
     cameraState.pose.position.x = vehicleX;
     cameraState.pose.position.y = vehicleY;
-    cameraState.pose.position.z = vehicleZ;
+    cameraState.pose.position.z = vehicleZ + cameraOffsetZ;
     pubModelState.publish(cameraState);
 
     robotState.pose.orientation = geoQuat;
