@@ -9,7 +9,8 @@
     <param name="overallMapVoxelSize" type="double" value="0.05" />
     <param name="exploredAreaVoxelSize" type="double" value="0.1" />
     <param name="exploredVolumeVoxelSize" type="double" value="0.2" />
-    <param name="trajInterval" type="double" value="0.1" />
+    <param name="transInterval" type="double" value="0.1" />
+    <param name="yawInterval" type="double" value="10.0" />
     <param name="overallMapDisplayInterval" type="int" value="2" />
     <param name="exploredAreaDisplayInterval" type="int" value="1" />
   </node>
