@@ -34,7 +34,8 @@ string mapFile;
 double overallMapVoxelSize = 0.5;
 double exploredAreaVoxelSize = 0.3;
 double exploredVolumeVoxelSize = 0.5;
-double trajInterval = 0.2;
+double transInterval = 0.2;
+double yawInterval = 10.0;
 int overallMapDisplayInterval = 2;
 int overallMapDisplayCount = 0;
 int exploredAreaDisplayInterval = 1;
@@ -56,6 +57,7 @@ double systemTime = 0;
 double systemInitTime = 0;
 bool systemInited = false;
 
+float vehicleYaw = 0;
 float vehicleX = 0, vehicleY = 0, vehicleZ = 0;
 float exploredVolume = 0, travelingDis = 0, runtime = 0, timeDuration = 0;
 
@@ -78,7 +80,20 @@ void odometryHandler(const nav_msgs::Odometry::ConstPtr& odom)
 {
   systemTime = odom->header.stamp.toSec();
 
+  double roll, pitch, yaw;
+  geometry_msgs::Quaternion geoQuat = odom->pose.pose.orientation;
+  tf::Matrix3x3(tf::Quaternion(geoQuat.x, geoQuat.y, geoQuat.z, geoQuat.w)).getRPY(roll, pitch, yaw);
+
+  float dYaw = fabs(yaw - vehicleYaw);
+  if (dYaw > PI) dYaw = 2 * PI  - dYaw;
+
+  float dx = odom->pose.pose.position.x - vehicleX;
+  float dy = odom->pose.pose.position.y - vehicleY;
+  float dz = odom->pose.pose.position.z - vehicleZ;
+  float dis = sqrt(dx * dx + dy * dy + dz * dz);
+
   if (!systemDelayInited) {
+    vehicleYaw = yaw;
     vehicleX = odom->pose.pose.position.x;
     vehicleY = odom->pose.pose.position.y;
     vehicleZ = odom->pose.pose.position.z;
@@ -93,12 +108,7 @@ void odometryHandler(const nav_msgs::Odometry::ConstPtr& odom)
     pubTimeDurationPtr->publish(timeDurationMsg);
   }
 
-  float dx = odom->pose.pose.position.x - vehicleX;
-  float dy = odom->pose.pose.position.y - vehicleY;
-  float dz = odom->pose.pose.position.z - vehicleZ;
-  float dis = sqrt(dx * dx + dy * dy + dz * dz);
-
-  if (dis < trajInterval) {
+  if (dis < transInterval && dYaw < yawInterval) {
     return;
   }
 
@@ -110,10 +120,7 @@ void odometryHandler(const nav_msgs::Odometry::ConstPtr& odom)
 
   travelingDis += dis;
 
-  double roll, pitch, yaw;
-  geometry_msgs::Quaternion geoQuat = odom->pose.pose.orientation;
-  tf::Matrix3x3(tf::Quaternion(geoQuat.x, geoQuat.y, geoQuat.z, geoQuat.w)).getRPY(roll, pitch, yaw);
-
+  vehicleYaw = yaw;
   vehicleX = odom->pose.pose.position.x;
   vehicleY = odom->pose.pose.position.y;
   vehicleZ = odom->pose.pose.position.z;
@@ -212,7 +219,8 @@ int main(int argc, char** argv)
   nhPrivate.getParam("overallMapVoxelSize", overallMapVoxelSize);
   nhPrivate.getParam("exploredAreaVoxelSize", exploredAreaVoxelSize);
   nhPrivate.getParam("exploredVolumeVoxelSize", exploredVolumeVoxelSize);
-  nhPrivate.getParam("trajInterval", trajInterval);
+  nhPrivate.getParam("transInterval", transInterval);
+  nhPrivate.getParam("yawInterval", yawInterval);
   nhPrivate.getParam("overallMapDisplayInterval", overallMapDisplayInterval);
   nhPrivate.getParam("exploredAreaDisplayInterval", exploredAreaDisplayInterval);
 
