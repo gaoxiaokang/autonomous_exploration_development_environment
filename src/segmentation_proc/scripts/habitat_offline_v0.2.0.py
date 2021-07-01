@@ -24,7 +24,7 @@ from scipy.spatial.transform import Rotation as R
 default_sim_settings = {
     "width": 640, # horizontal resolution
     "height": 360, # vertical resolution
-    "hfov": "114.591560981", # horizontal FOV
+    "hfov": 114.591560981, # horizontal FOV
     "camera_offset_z": 0, # camera z-offset
     "color_sensor": True,  # RGB sensor
     "depth_sensor": True,  # depth sensor
@@ -60,43 +60,44 @@ def make_cfg(settings):
         )
     sim_cfg.scene_id = settings["scene"]
 
-    sensors = {
-        "color_sensor": {
-            "sensor_type": habitat_sim.SensorType.COLOR,
-            "resolution": [settings["height"], settings["width"]],
-            "position": [0.0, settings["camera_offset_z"], 0.0],
-            "sensor_subtype": habitat_sim.SensorSubType.PINHOLE,
-            "hfov": settings["hfov"],
-        },
-        "depth_sensor": {
-            "sensor_type": habitat_sim.SensorType.DEPTH,
-            "resolution": [settings["height"], settings["width"]],
-            "position": [0.0, settings["camera_offset_z"], 0.0],
-            "sensor_subtype": habitat_sim.SensorSubType.PINHOLE,
-            "hfov": settings["hfov"],
-        },
-        "semantic_sensor": {
-            "sensor_type": habitat_sim.SensorType.SEMANTIC,
-            "resolution": [settings["height"], settings["width"]],
-            "position": [0.0, settings["camera_offset_z"], 0.0],
-            "sensor_subtype": habitat_sim.SensorSubType.PINHOLE,
-            "hfov": settings["hfov"],
-        },
-    }
-
     sensor_specs = []
-    for sensor_uuid, sensor_params in sensors.items():
-        if settings[sensor_uuid]:
-            sensor_spec = habitat_sim.SensorSpec()
-            sensor_spec.uuid = sensor_uuid
-            sensor_spec.sensor_type = sensor_params["sensor_type"]
-            sensor_spec.sensor_subtype = sensor_params["sensor_subtype"]
-            sensor_spec.resolution = sensor_params["resolution"]
-            sensor_spec.position = sensor_params["position"]
-            sensor_spec.gpu2gpu_transfer = False
-            sensor_spec.parameters["hfov"] = sensor_params["hfov"]
+    def create_camera_spec(**kw_args):
+        camera_sensor_spec = habitat_sim.CameraSensorSpec()
+        camera_sensor_spec.sensor_type = habitat_sim.SensorType.COLOR
+        camera_sensor_spec.resolution = [settings["height"], settings["width"]]
+        camera_sensor_spec.position = [0, 0, 0]
+        for k in kw_args:
+            setattr(camera_sensor_spec, k, kw_args[k])
+        return camera_sensor_spec
 
-            sensor_specs.append(sensor_spec)
+    if settings["color_sensor"]:
+        color_sensor_spec = create_camera_spec(
+            uuid="color_sensor",
+            hfov=settings["hfov"],
+            sensor_type=habitat_sim.SensorType.COLOR,
+            sensor_subtype=habitat_sim.SensorSubType.PINHOLE,
+        )
+        sensor_specs.append(color_sensor_spec)
+
+    if settings["depth_sensor"]:
+        depth_sensor_spec = create_camera_spec(
+            uuid="depth_sensor",
+            hfov=settings["hfov"],
+            sensor_type=habitat_sim.SensorType.DEPTH,
+            channels=1,
+            sensor_subtype=habitat_sim.SensorSubType.PINHOLE,
+        )
+        sensor_specs.append(depth_sensor_spec)
+
+    if settings["semantic_sensor"]:
+        semantic_sensor_spec = create_camera_spec(
+            uuid="semantic_sensor",
+            hfov=settings["hfov"],
+            sensor_type=habitat_sim.SensorType.SEMANTIC,
+            channels=1,
+            sensor_subtype=habitat_sim.SensorSubType.PINHOLE,
+        )
+        sensor_specs.append(semantic_sensor_spec)
 
     agent_cfg = habitat_sim.agent.AgentConfiguration()
     agent_cfg.sensor_specifications = sensor_specs
