@@ -2,6 +2,7 @@
 
 import rospy
 from nav_msgs.msg import Odometry
+from sensor_msgs.msg import Image as ROS_Image
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
 import argparse
@@ -112,13 +113,6 @@ class ABTestGroup(Enum):
     TEST = 2
 
 class DemoRunner:
-    camera_roll = 0
-    camera_pitch = 0
-    camera_yaw = 0
-    camera_x = 0
-    camera_y = 0
-    camera_z = 0
-
     def __init__(self, sim_settings, simulator_demo_type):
         if simulator_demo_type == DemoRunnerType.EXAMPLE:
             self.set_sim_settings(sim_settings)
@@ -127,22 +121,28 @@ class DemoRunner:
     def set_sim_settings(self, sim_settings):
         self._sim_settings = sim_settings.copy()
 
-    def publish_color_observation(self, obs):
+    def publish_color_observation(self, obs, time):
         color_obs = obs["color_sensor"]
         color_img = Image.fromarray(color_obs, mode="RGBA")
-        # publish image on ROS topic '/habitat_camera/color/image' in 'habitat_camera' frame
+        self.color_image.data = np.array(color_img.convert("RGB")).tobytes()
+        self.color_image.header.stamp = time
+        self.color_image_pub.publish(self.color_image)
 
-    def publish_semantic_observation(self, obs):
+    def publish_semantic_observation(self, obs, time):
         semantic_obs = obs["semantic_sensor"]
         semantic_img = Image.new("P", (semantic_obs.shape[1], semantic_obs.shape[0]))
         semantic_img.putpalette(d3_40_colors_rgb.flatten())
         semantic_img.putdata((semantic_obs.flatten() % 40).astype(np.uint8))
-        # publish image on ROS topic '/habitat_camera/semantic/image' in 'habitat_camera' frame
+        self.semantic_image.data = np.array(semantic_img.convert("RGB")).tobytes()
+        self.semantic_image.header.stamp = time
+        self.semantic_image_pub.publish(self.semantic_image)
 
-    def publish_depth_observation(self, obs):
+    def publish_depth_observation(self, obs, time):
         depth_obs = obs["depth_sensor"]
-        depth_img = Image.fromarray((depth_obs / 10 * 255).astype(np.uint8), mode="L")
-        # publish image on ROS topic '/habitat_camera/depth/image' in 'habitat_camera' frame
+        depth_img = Image.fromarray((depth_obs / 10 * 255).astype(np.float32), mode="L")
+        self.depth_image.data = np.array(depth_img.convert("L")).tobytes()
+        self.depth_image.header.stamp = time
+        self.depth_image_pub.publish(self.depth_image)
 
     def init_common(self):
         self._cfg = make_cfg(self._sim_settings)
@@ -163,11 +163,47 @@ class DemoRunner:
         self.camera_z = msg.pose.pose.position.z
 
     def listener(self):
-        rospy.init_node('habitatOnline')
-
-        rospy.Subscriber("/state_estimation", Odometry, self.state_estimation_callback)
-
         start_state = self.init_common()
+
+        rospy.init_node("habitat_online")
+        
+        rospy.Subscriber("/state_estimation", Odometry, self.state_estimation_callback)
+        self.camera_roll = 0
+        self.camera_pitch = 0
+        self.camera_yaw = 0
+        self.camera_x = 0
+        self.camera_y = 0
+        self.camera_z = 0
+
+        if self._sim_settings["color_sensor"]:
+            self.color_image_pub = rospy.Publisher("/habitat_camera/color/image", ROS_Image, queue_size=2)
+            self.color_image = ROS_Image()
+            self.color_image.header.frame_id = "habitat_camera"
+            self.color_image.height = settings["height"]
+            self.color_image.width  = settings["width"]
+            self.color_image.encoding = "rgb8"
+            self.color_image.step = 3 * self.color_image.width
+            self.color_image.is_bigendian = False
+
+        if self._sim_settings["depth_sensor"]:
+            self.depth_image_pub = rospy.Publisher("/habitat_camera/depth/image", ROS_Image, queue_size=2)
+            self.depth_image = ROS_Image()
+            self.depth_image.header.frame_id = "habitat_camera"
+            self.depth_image.height = settings["height"]
+            self.depth_image.width  = settings["width"]
+            self.depth_image.encoding = "mono8"
+            self.depth_image.step = self.color_image.width
+            self.depth_image.is_bigendian = False
+
+        if self._sim_settings["semantic_sensor"]:
+            self.semantic_image_pub = rospy.Publisher("/habitat_camera/semantic/image", ROS_Image, queue_size=2)
+            self.semantic_image = ROS_Image()
+            self.semantic_image.header.frame_id = "habitat_camera"
+            self.semantic_image.height = settings["height"]
+            self.semantic_image.width  = settings["width"]
+            self.semantic_image.encoding = "rgb8"
+            self.semantic_image.step = 3 * self.color_image.width
+            self.semantic_image.is_bigendian = False
 
         r = rospy.Rate(default_sim_settings["frame_rate"])
         while not rospy.is_shutdown():
@@ -188,18 +224,20 @@ class DemoRunner:
                 agent_state.sensor_states[sensor].position = position + np.array([0, default_sim_settings["camera_offset_z"], 0])
                 agent_state.sensor_states[sensor].rotation = quat_from_coeffs(np.array([-qy, -qz, qx, qw]))
 
-            self._sim.get_agent(0).set_state(agent_state, infer_sensor_states = False)                
+            self._sim.get_agent(0).set_state(agent_state, infer_sensor_states = False)
             observations = self._sim.step("move_forward")
 
+            time = rospy.Time.now();
+
             if self._sim_settings["color_sensor"]:
-                self.publish_color_observation(observations)
+                self.publish_color_observation(observations, time)
             if self._sim_settings["depth_sensor"]:
-                self.publish_depth_observation(observations)
+                self.publish_depth_observation(observations, time)
             if self._sim_settings["semantic_sensor"]:
-                self.publish_semantic_observation(observations)
+                self.publish_semantic_observation(observations, time)
 
             state = self._sim.last_state()
-            print(rospy.get_time(), position) # remove in the end
+            print("Publishing at time: " + str(time.to_sec()))
             r.sleep()
 
         self._sim.close()
