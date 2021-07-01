@@ -108,7 +108,6 @@ class DemoRunnerType(Enum):
     EXAMPLE = 2
     AB_TEST = 3
 
-
 class ABTestGroup(Enum):
     CONTROL = 1
     TEST = 2
