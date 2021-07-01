@@ -419,7 +419,7 @@ Visualization Manager:
       Value: false
     - Class: rviz/Image
       Enabled: false
-      Image Topic: "/habitat_camera/color/image "
+      Image Topic: /habitat_camera/color/image
       Max Value: 1
       Median window: 5
       Min Value: 0
