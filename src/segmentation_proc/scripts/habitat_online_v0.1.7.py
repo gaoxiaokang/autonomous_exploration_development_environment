@@ -139,7 +139,7 @@ class DemoRunner:
 
     def publish_depth_observation(self, obs, time):
         depth_obs = obs["depth_sensor"]
-        depth_img = Image.fromarray((depth_obs / 10 * 255).astype(np.float32), mode="L")
+        depth_img = Image.fromarray((depth_obs / 10 * 255).astype(np.uint8), mode="L")
         self.depth_image.data = np.array(depth_img.convert("L")).tobytes()
         self.depth_image.header.stamp = time
         self.depth_image_pub.publish(self.depth_image)
@@ -173,7 +173,7 @@ class DemoRunner:
         self.camera_yaw = 0
         self.camera_x = 0
         self.camera_y = 0
-        self.camera_z = 0
+        self.camera_z = 0.5
 
         if self._sim_settings["color_sensor"]:
             self.color_image_pub = rospy.Publisher("/habitat_camera/color/image", ROS_Image, queue_size=2)
