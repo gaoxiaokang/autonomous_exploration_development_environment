@@ -139,7 +139,20 @@ class DemoRunner:
         depth_img = Image.fromarray((depth_obs / 10 * 255).astype(np.uint8), mode="L")
         depth_img.save(save_dir + "/depth_%05d.png" % total_frames)
 
-    def do_time_steps_bypass(self, trajectory, save_dir):
+    def init_common(self):
+        self._cfg = make_cfg(self._sim_settings)
+        scene_file = self._sim_settings["scene"]
+
+        self._sim = habitat_sim.Simulator(self._cfg)
+
+        if not self._sim.pathfinder.is_loaded:
+            navmesh_settings = habitat_sim.NavMeshSettings()
+            navmesh_settings.set_defaults()
+            self._sim.recompute_navmesh(self._sim.pathfinder, navmesh_settings)
+
+    def proc_trajectory(self, trajectory, save_dir):
+        start_state = self.init_common()
+
         path_log = np.loadtxt(trajectory)
         path_log_len = len(path_log)
      
@@ -190,23 +203,6 @@ class DemoRunner:
         perf["fps"] = 1.0 / perf["frame_time"]
         perf["avg_sim_step_time"] = total_sim_step_time / total_frames
 
-        return perf
-
-    def init_common(self):
-        self._cfg = make_cfg(self._sim_settings)
-        scene_file = self._sim_settings["scene"]
-
-        self._sim = habitat_sim.Simulator(self._cfg)
-
-        if not self._sim.pathfinder.is_loaded:
-            navmesh_settings = habitat_sim.NavMeshSettings()
-            navmesh_settings.set_defaults()
-            self._sim.recompute_navmesh(self._sim.pathfinder, navmesh_settings)
-
-    def proc_trajectory(self, trajectory, save_dir):
-        start_state = self.init_common()
-
-        perf = self.do_time_steps_bypass(trajectory, save_dir)
         self._sim.close()
         del self._sim
 
