@@ -52,7 +52,7 @@ settings = make_settings()
 
 def make_cfg(settings):
     sim_cfg = habitat_sim.SimulatorConfiguration()
-    sim_cfg.frustum_culling = False
+    sim_cfg.frustum_culling = True
     sim_cfg.gpu_device_id = 0
     if not hasattr(sim_cfg, "scene_id"):
         raise RuntimeError(
