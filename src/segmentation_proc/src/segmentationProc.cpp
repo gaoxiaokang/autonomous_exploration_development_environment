@@ -76,6 +76,8 @@ POINT_CLOUD_REGISTER_POINT_STRUCT (ObjectPoint,
 pcl::PointCloud<RegionPoint>::Ptr regionAll(new pcl::PointCloud<RegionPoint>());
 pcl::PointCloud<ObjectPoint>::Ptr objectAll(new pcl::PointCloud<ObjectPoint>());
 
+double systemTime = 0;
+
 float vehicleRoll = 0, vehiclePitch = 0, vehicleYaw = 0;
 float vehicleX = 0, vehicleY = 0, vehicleZ = 0;
 
@@ -320,6 +322,8 @@ int readSegmentationFile(const char *filename)
 
 void odometryHandler(const nav_msgs::Odometry::ConstPtr& odom)
 {
+  systemTime = odom->header.stamp.toSec();
+
   double roll, pitch, yaw;
   geometry_msgs::Quaternion geoQuat = odom->pose.pose.orientation;
   tf::Matrix3x3(tf::Quaternion(geoQuat.x, geoQuat.y, geoQuat.z, geoQuat.w)).getRPY(roll, pitch, yaw);
@@ -355,8 +359,6 @@ int main(int argc, char** argv)
   if (readSegmentationFile(seg_file_dir.c_str()) != 1) {
     printf("\nCouldn't read segmentation file.\n");
   }
-
-  time_t systemTime = time(0);
 
   // prepare point cloud messages
   pcl::toROSMsg(*regionAll, regionAll2);
