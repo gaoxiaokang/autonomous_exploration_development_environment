@@ -8,7 +8,7 @@
     <param name="noDecayDis" type="double" value="0" />
     <param name="clearingDis" type="double" value="30.0" />
     <param name="useSorting" type="bool" value="false" />
-    <param name="quantileZ" type="double" value="0.25" />
+    <param name="quantileZ" type="double" value="0.1" />
     <param name="vehicleHeight" type="double" value="1.5" />
     <param name="voxelPointUpdateThre" type="int" value="100" />
     <param name="voxelTimeUpdateThre" type="double" value="2.0" />
