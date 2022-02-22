@@ -10,9 +10,10 @@ ggID='1GMT8tptb3nAb87F8eFfmIgjma6Bu0reV'
 ggURL='https://drive.google.com/uc?export=download'
 
 filename="$(curl -sc /tmp/gcokie "${ggURL}&id=${ggID}" | grep -o '="uc-name.*</span>' | sed 's/.*">//;s/<.a> .*//')"
-getcode="$(awk '/_warning_/ {print $NF}' /tmp/gcokie)"
 
-curl -Lb /tmp/gcokie "${ggURL}&confirm=${getcode}&id=${ggID}" -o "${filename}"
+html=`curl -c /tmp/gcokie -s -L "https://drive.google.com/uc?export=download&id=${ggID}"`
+
+curl -Lb /tmp/gcokie "https://drive.google.com/uc?export=download&`echo ${html}|grep -Po '(confirm=[a-zA-Z0-9\-_]+)'`&id=${ggID}" -o ${filename}
 
 echo ""
 echo "Unzipping files..."
